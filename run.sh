@@ -1,5 +1,10 @@
 #!/bin/sh
-set -e 
+set -eu
+
+if [[ "$#" != 2 || "$1" = "" || "$2" = "" ]]; then
+  echo "Usage: $0 <files> <threads>"
+  exit 1
+fi
 
 rm -rf src/*.php
 

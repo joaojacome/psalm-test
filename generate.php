@@ -2,8 +2,9 @@
 
 if ($argc !== 2 || !is_numeric($argv[1])) {
     echo "usage: php generate.php NUMBER_OF_FILES" . PHP_EOL;
-    die();
+    exit(2);
 }
+
 $nfiles = (int) $argv[1];
 $strs = [];
 

@@ -4,6 +4,8 @@ services:
       context: .
     volumes:
      - ./:/app
-    environment:
-      - THREADS=${THREADS}
-CMD ["php", "/app/vendor/bin/psalm", "--no-cache", "--threads=$THREADS"]
+    command:
+      - php
+      - /app/vendor/bin/psalm
+      - --no-cache
+      - --threads=${THREADS}
