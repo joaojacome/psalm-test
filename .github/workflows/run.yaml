@@ -15,6 +15,7 @@ jobs:
       matrix:
         files: [500, 512, 513]
         threads: [1, 2, 3]
+        versions: ["5.0.0-beta1", "dev-master", "4.26.0"]
     steps:
       - name: Setup PHP with specific version of PECL extension
         uses: shivammathur/setup-php@v2
@@ -39,6 +40,9 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+
+      - name: Run composer install
+        run: composer require vimeo/psalm:"${{ matrix.versions }}"
 
       - name: Run composer install
         run: composer install -o
