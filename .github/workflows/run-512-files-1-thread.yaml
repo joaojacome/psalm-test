@@ -1,17 +1,50 @@
-name: 512 files 1 thread
+name: run
 
 on:
+
   push:
     branches:
       - main
 
 jobs:
-  check:
+  run:
     name: Check PHP syntax
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        files: [500, 512, 513]
+        threads: [1, 2, 3]
     steps:
-    - name: Setup PHP with specific version of PECL extension
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '5.4'
-        extensions: swoole-1.9.3
+      - name: Setup PHP with specific version of PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: posix, pcntl
+
+      - uses: actions/checkout@v3
+
+      - name: Get Composer Cache Directories
+        id: composer-cache
+        run: |
+          echo "::set-output name=files_cache::$(composer config cache-files-dir)"
+          echo "::set-output name=vcs_cache::$(composer config cache-vcs-dir)"
+  
+      - name: Cache composer cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ steps.composer-cache.outputs.files_cache }}
+            ${{ steps.composer-cache.outputs.vcs_cache }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Run composer install
+        run: composer install -o
+
+      - name: Generate files
+        run: php generate.php ${{ matrix.files }}
+
+      - name: Run psalm 
+        run: vendor/bin/psalm --no-cache --threads=${{ matrix.threads }}
