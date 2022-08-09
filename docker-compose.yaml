@@ -1,0 +1,9 @@
+services:
+  php:
+    build:
+      context: .
+    volumes:
+     - ./:/app
+    environment:
+      - THREADS=${THREADS}
+CMD ["php", "/app/vendor/bin/psalm", "--no-cache", "--threads=$THREADS"]

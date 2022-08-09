@@ -1,0 +1,17 @@
+name: 512 files 1 thread
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    name: Check PHP syntax
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup PHP with specific version of PECL extension
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '5.4'
+        extensions: swoole-1.9.3
