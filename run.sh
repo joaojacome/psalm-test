@@ -8,6 +8,8 @@ fi
 
 rm -rf src/*.php
 
+composer require vimeo/psalm:"5.0.0-beta1"
+
 php generate.php $1
 
 THREADS=$2 docker compose up

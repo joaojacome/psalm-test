@@ -1,7 +1,4 @@
 {
-    "require-dev": {
-        "vimeo/psalm": "5.0.0-beta1"
-    },
     "autoload": {
         "App": "src/"
     }

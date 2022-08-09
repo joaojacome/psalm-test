@@ -8,7 +8,7 @@ on:
 
 jobs:
   run:
-    name: Check PHP syntax (files, threads)
+    name: Check PHP syntax (files, threads, psalm-version)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
