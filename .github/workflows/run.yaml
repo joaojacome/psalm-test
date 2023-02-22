@@ -8,7 +8,7 @@ on:
 
 jobs:
   run:
-    name: Check PHP syntax (files, threads, psalm-version)
+    name: Run psalm (files, threads, psalm-version)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -24,22 +24,6 @@ jobs:
           extensions: posix, pcntl
 
       - uses: actions/checkout@v3
-
-      - name: Get Composer Cache Directories
-        id: composer-cache
-        run: |
-          echo "::set-output name=files_cache::$(composer config cache-files-dir)"
-          echo "::set-output name=vcs_cache::$(composer config cache-vcs-dir)"
-  
-      - name: Cache composer cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ${{ steps.composer-cache.outputs.files_cache }}
-            ${{ steps.composer-cache.outputs.vcs_cache }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
 
       - name: Run composer install
         run: composer require vimeo/psalm:"${{ matrix.versions }}"
