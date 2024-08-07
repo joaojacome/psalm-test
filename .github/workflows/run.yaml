@@ -15,7 +15,7 @@ jobs:
       matrix:
         files: [500, 512, 513]
         threads: [1, 2, 3]
-        versions: ["5.0.0-beta1", "dev-master", "4.26.0"]
+        versions: ["dev-master", "5.25.0"]
     steps:
       - name: Setup PHP with specific version of PECL extension
         uses: shivammathur/setup-php@v2
